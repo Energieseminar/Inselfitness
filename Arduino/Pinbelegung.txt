@@ -1,0 +1,14 @@
+PIN (arduino) - Name - Übertragungsstrecke - Messgröße
+2 - CPV - Amp1 - PV (0-10A)
+3 - Cwt -Amp2 - Windkraft (0-20A)
+4 - Cwr -  Amp3 - Wechselrichter (0-10A)
+5 - Cnt - Amp4 - Netzteil (0-10A)
+6 - frei - !ist cal4 im Arduino Code!
+7 - Cbp - Amp5 - Batterie positiv (0-25A) 
+8 - Cbn - Amp6 - Batterie negativ (0-25A)
+9 - Vw - Shunt 1 - Windgeschwindigkeit  (4-20mA)
+10 - Dw - Shunt 2 - Windrichtung (4-20mA)
+11 - Is - DIR 3 - Sonnenintensität (0-220mV)
+12 - Ta - DIR 1 - Batterietemperatur (100 - 1000mV)
+13 - Tb - DIR 2 - Außentemperatur (100 - 1000mV)
+14 - Vb - Voldi - Spannnung Batterie (4-20mA)
