@@ -1,5 +1,13 @@
 # Setup of Webserver & Code development on Raspberry
 To work in save environment with easy package managment conda is being used. Therefore some speacial steps must be taken to install conda.
+
+As always first update & upgrade package lists and assign ourselfs as admin:
+```
+sudo su
+apt-get update && apt-get upgrade -y
+```
+
+
 ## Conda Installation: 
 
 We followed the instructions of a well done Stackoverflow Question:
