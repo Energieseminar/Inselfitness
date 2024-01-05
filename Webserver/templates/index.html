@@ -21,5 +21,11 @@
             Plotly.newPlot('plot', plotData.data, plotData.layout);
         </script>
     </div>
+
+    <div>
+        <!-- Display the DataFrame as an HTML table -->
+        <h2>DataFrame:</h2>
+        {{ table_html | safe }}
+    </div>
 </body>
 </html>
