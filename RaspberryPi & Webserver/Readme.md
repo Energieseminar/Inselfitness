@@ -83,4 +83,7 @@ I hope this solution will work for you too!
 Antwort von Paul Strobel von Stack Overflow
 
 ## Setup git to download & Update Code
-
+First install git: 
+```
+apt-get install
+```
