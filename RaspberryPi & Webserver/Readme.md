@@ -1,6 +1,8 @@
 # Setup of Webserver & Code development on Raspberry
 To work in save environment with easy package managment conda is being used. Therefore some speacial steps must be taken to install conda.
 ## Conda Installation: 
+
+We followed the instructions of a well done Stackoverflow Question:
 *Note: The added environment is named "streamlit" like the webserrver app*
 
 Installing Miniconda on Raspberry Pi and adding Python 3.5 / 3.6
