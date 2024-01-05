@@ -1,19 +1,17 @@
-# Import necessary libraries
-import streamlit as st
+from flask import Flask, render_template
 import pandas as pd
 
-# Create a small DataFrame for demonstration
-data = {'Name': ['Alice', 'Bob', 'Charlie'],
-        'Age': [25, 30, 22],
-        'City': ['New York', 'San Francisco', 'Los Angeles']}
+app = Flask(__name__)
 
-df = pd.DataFrame(data)
+@app.route('/')
+def display_dataframe():
+    data = {'Name': ['Alice', 'Bob', 'Charlie'],
+            'Age': [25, 30, 22],
+            'City': ['New York', 'San Francisco', 'Los Angeles']}
+    
+    df = pd.DataFrame(data)
+    
+    return render_template('index.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
 
-# Streamlit app
-st.title('Simple DataFrame Viewer')
-
-# Display the DataFrame
-st.write('Here is a small DataFrame:')
-st.dataframe(df)
-
-# Additional Streamlit features can be added as needed
+if __name__ == '__main__':
+    app.run(debug=True)
