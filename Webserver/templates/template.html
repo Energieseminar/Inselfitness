@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Plotly Example</title>
+    <!-- Include Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div>
+        <!-- This div will hold the Plotly plot -->
+        <div id="plot"></div>
+
+        <!-- Embed the Plotly JSON data in a script tag -->
+        <script>
+            // Retrieve the Plotly JSON data from the Flask app
+            var plotData = {{ plot_json | tojson | safe }};
+
+            // Display the Plotly plot using the retrieved data
+            Plotly.newPlot('plot', plotData.data, plotData.layout);
+        </script>
+    </div>
+</body>
+</html>
