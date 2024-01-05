@@ -73,3 +73,6 @@ Python3.7 app-that-needs-python37.py
 I hope this solution will work for you too!
 
 Antwort von Paul Strobel von Stack Overflow
+
+## Setup git to download & Update Code
+
