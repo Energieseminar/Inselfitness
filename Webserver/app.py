@@ -1,17 +1,28 @@
-from flask import Flask, render_template
-import pandas as pd
+from dash import Dash, dcc, html, Input, Output
+import plotly.express as px
 
-app = Flask(__name__)
+app = Dash(__name__)
 
-@app.route('/')
-def display_dataframe():
-    data = {'Name': ['Alice', 'Bob', 'Charlie'],
-            'Age': [25, 30, 22],
-            'City': ['New York', 'San Francisco', 'Los Angeles']}
-    
-    df = pd.DataFrame(data)
-    
-    return render_template('index.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
+app.layout = html.Div([
+    html.H4('Analysis of Iris data using scatter matrix'),
+    dcc.Dropdown(
+        id="dropdown",
+        options=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
+        value=['sepal_length', 'sepal_width'],
+        multi=True
+    ),
+    dcc.Graph(id="graph"),
+])
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+
+@app.callback(
+    Output("graph", "figure"),
+    Input("dropdown", "value"))
+def update_bar_chart(dims):
+    df = px.data.iris() # replace with your own data source
+    fig = px.scatter_matrix(
+        df, dimensions=dims, color="species")
+    return fig
+
+
+app.run_server(debug=True)

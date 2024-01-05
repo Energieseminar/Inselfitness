@@ -11,15 +11,6 @@
     <div>
         <!-- This div will hold the Plotly plot -->
         <div id="plot"></div>
-
-        <!-- Embed the Plotly JSON data in a script tag -->
-        <script>
-            // Retrieve the Plotly JSON data from the Flask app
-            var plotData = {{ plot_json | tojson | safe }};
-
-            // Display the Plotly plot using the retrieved data
-            Plotly.newPlot('plot', plotData.data, plotData.layout);
-        </script>
     </div>
 
     <div>
@@ -27,5 +18,14 @@
         <h2>DataFrame:</h2>
         {{ table_html | safe }}
     </div>
+
+    <!-- Embed the Plotly JSON data in a script tag -->
+    <script>
+        // Retrieve the Plotly JSON data from the Flask app
+        var plotData = {{ plot_json | tojson | safe }};
+
+        // Display the Plotly plot in the specified div
+        Plotly.newPlot('plot', plotData.data, plotData.layout);
+    </script>
 </body>
 </html>
