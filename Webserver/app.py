@@ -14,7 +14,7 @@ app = Dash(__name__, server=server)
 data = pd.DataFrame(columns=['Timestamp', 'SolarCurrent', 'SolarVoltage', 'WindCurrent', 'WindVoltage',
                              'BatteryVoltage', 'BiogasPowerDraw', 'InverterPowerConsumption', 'WindSpeed',
                              'SolarRadiation', 'Temperature'])
-
+data.to_csv("arduino_data.csv", sep=";")
 # Dash layout
 app.layout = html.Div([
     dcc.Graph(id='solar-plot'),
@@ -31,12 +31,13 @@ app.layout = html.Div([
     [Input('interval-component', 'n_intervals')]
 )
 def update_plots(n):
-    global data
+    data = pd.read_csv("arduino_data.csv", delimiter=";")
     data_list = update_data()
 
     # Update data dataframe
-    data = data.append(pd.Series(data_list, index=data.columns), ignore_index=True)
-
+    data = pd.concat(pd.DataFrame(data_list, columns=data.columns, index=n), data)
+    print(data)
+    data.to_csv("arduino_data.csv", sep=";")
     # Solar Plot
     solar_plot = {
         'data': [
