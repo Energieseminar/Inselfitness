@@ -14,7 +14,7 @@ app = Dash(__name__, server=server)
 data = pd.DataFrame(columns=['timestamp', 'SolarCurrent', 'SolarVoltage', 'WindCurrent', 'WindVoltage',
                              'BatteryVoltage', 'BiogasPowerDraw', 'InverterPowerConsumption', 'WindSpeed',
                              'SolarRadiation', 'Temperature'])
-data.to_csv("arduino_data.csv", sep=";")
+data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
 # Dash layout
 app.layout = html.Div([
     dcc.Graph(id='solar-plot'),
@@ -38,7 +38,7 @@ def update_plots(n):
     data_list.pop("timestamp")
     data = pd.concat([pd.DataFrame(data_list, index=[index]), data])
     print(data)
-    data.to_csv("arduino_data.csv", sep=";")
+    data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
     # Solar Plot
     solar_plot = {
         'data': [
