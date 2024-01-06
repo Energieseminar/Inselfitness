@@ -43,12 +43,12 @@ def update_plots(n):
     # Solar Plot
     solar_plot = {
         'data': [
-            {'x': data['Timestamp'], 'y': data['SolarCurrent'], 'type': 'line', 'name': 'Solar Current'},
-            {'x': data['Timestamp'], 'y': data['SolarVoltage'], 'type': 'line', 'name': 'Solar Voltage'},
+            {'x': data['timestamp'], 'y': data['SolarCurrent'], 'type': 'line', 'name': 'Solar Current'},
+            {'x': data['timestamp'], 'y': data['SolarVoltage'], 'type': 'line', 'name': 'Solar Voltage'},
         ],
         'layout': {
             'title': 'Solar Panel Data',
-            'xaxis': {'title': 'Timestamp'},
+            'xaxis': {'title': 'timestamp'},
             'yaxis': {'title': 'Values'},
         }
     }
@@ -56,13 +56,13 @@ def update_plots(n):
     # Wind Plot
     wind_plot = {
         'data': [
-            {'x': data['Timestamp'], 'y': data['WindCurrent'], 'type': 'line', 'name': 'Wind Current'},
-            {'x': data['Timestamp'], 'y': data['WindVoltage'], 'type': 'line', 'name': 'Wind Voltage'},
-            {'x': data['Timestamp'], 'y': data['WindSpeed'], 'type': 'line', 'name': 'Wind Speed'},
+            {'x': data['timestamp'], 'y': data['WindCurrent'], 'type': 'line', 'name': 'Wind Current'},
+            {'x': data['timestamp'], 'y': data['WindVoltage'], 'type': 'line', 'name': 'Wind Voltage'},
+            {'x': data['timestamp'], 'y': data['WindSpeed'], 'type': 'line', 'name': 'Wind Speed'},
         ],
         'layout': {
             'title': 'Wind Turbine Data',
-            'xaxis': {'title': 'Timestamp'},
+            'xaxis': {'title': 'timestamp'},
             'yaxis': {'title': 'Values'},
         }
     }
@@ -70,13 +70,13 @@ def update_plots(n):
     # Power Plot
     power_plot = {
         'data': [
-            {'x': data['Timestamp'], 'y': data['BatteryVoltage'], 'type': 'line', 'name': 'Battery Voltage'},
-            {'x': data['Timestamp'], 'y': data['BiogasPowerDraw'], 'type': 'line', 'name': 'Biogas Power Draw'},
-            {'x': data['Timestamp'], 'y': data['InverterPowerConsumption'], 'type': 'line', 'name': 'Inverter Power Consumption'},
+            {'x': data['timestamp'], 'y': data['BatteryVoltage'], 'type': 'line', 'name': 'Battery Voltage'},
+            {'x': data['timestamp'], 'y': data['BiogasPowerDraw'], 'type': 'line', 'name': 'Biogas Power Draw'},
+            {'x': data['timestamp'], 'y': data['InverterPowerConsumption'], 'type': 'line', 'name': 'Inverter Power Consumption'},
         ],
         'layout': {
             'title': 'Power Data',
-            'xaxis': {'title': 'Timestamp'},
+            'xaxis': {'title': 'timestamp'},
             'yaxis': {'title': 'Values'},
         }
     }
@@ -95,7 +95,7 @@ def update_data():
 
     # Print the resulting dictionary
 
-    data_dict.update({"timestamp": pd.Timestamp.now()})  # Add timestamp
+    data_dict.update({"timestamp": pd.timestamp.now()})  # Add timestamp
     return data_dict
 
 if __name__ == '__main__':
