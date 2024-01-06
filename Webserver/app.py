@@ -11,7 +11,7 @@ server = Flask(__name__)
 app = Dash(__name__, server=server)
 
 # Initial data for plotting
-data = pd.DataFrame(columns=['Timestamp', 'SolarCurrent', 'SolarVoltage', 'WindCurrent', 'WindVoltage',
+data = pd.DataFrame(columns=['timestamp', 'SolarCurrent', 'SolarVoltage', 'WindCurrent', 'WindVoltage',
                              'BatteryVoltage', 'BiogasPowerDraw', 'InverterPowerConsumption', 'WindSpeed',
                              'SolarRadiation', 'Temperature'])
 data.to_csv("arduino_data.csv", sep=";")
