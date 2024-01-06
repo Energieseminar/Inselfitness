@@ -10,7 +10,7 @@ server = Flask(__name__)
 app = Dash(__name__, server=server)
 
 # Initial data for printing
-data = {'Sensor1': None, 'Sensor2': None, 'Sensor3': None}
+data = {'Sensor1': 1.0, 'Sensor2': 1.0, 'Sensor3': 1.0}
 
 # Dash layout
 app.layout = html.Div([
