@@ -1,13 +1,51 @@
 from flask import Flask
 from dash import Dash, dcc, html, Input, Output
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import serial
 
-# Serial communication setup
-ser = serial.Serial('/dev/ttyUSB0', 9600)  # Adjust the port and baud rate accordingly
+# Serial communication setup for Raspberry Pi
+ser = serial.Serial('/dev/ttyACM0', 9600)  # Adjust the port and baud rate accordingly
 
+# Flask app setup
+server = Flask(__name__)
+app = Dash(__name__, server=server)
+
+# Initial data for printing
+data = {'Sensor1': None, 'Sensor2': None, 'Sensor3': None}
+
+# Dash layout
+app.layout = html.Div([
+    html.H1("Arduino Sensor Values"),
+    html.Div([
+        html.P("Sensor 1: "),
+        html.P(id='sensor1-value'),
+    ]),
+    html.Div([
+        html.P("Sensor 2: "),
+        html.P(id='sensor2-value'),
+    ]),
+    html.Div([
+        html.P("Sensor 3: "),
+        html.P(id='sensor3-value'),
+    ]),
+    dcc.Interval(id='interval-component', interval=1000, n_intervals=0)
+])
+
+# Callback to update sensor values
+@app.callback(
+    [Output('sensor1-value', 'children'),
+     Output('sensor2-value', 'children'),
+     Output('sensor3-value', 'children')],
+    [Input('interval-component', 'n_intervals')]
+)
+def update_sensor_values(n):
+    global data
+    data_list = update_data()
+
+    # Update data dictionary
+    for key, value in zip(data.keys(), data_list):
+        data[key] = value
+
+    return f"{data['Sensor1']:.2f}", f"{data['Sensor2']:.2f}", f"{data['Sensor3']:.2f}"
 
 # Function to read data from Arduino
 def update_data():
@@ -15,64 +53,5 @@ def update_data():
     data_list = [float(value) for value in serial_data.split(',')]
     return data_list
 
-# Flask app setup
-server = Flask(__name__)
-app = Dash(__name__, server=server)
-
-# Initial data for plotting
-data = {'Sensor1': [], 'Sensor2': [], 'Sensor3': []}
-
-# Dash layout
-app.layout = html.Div([
-    dcc.Graph(id='live-plot'),
-    dcc.Interval(id='interval-component', interval=1000, n_intervals=0)
-])
-
-# Callback to update live plot
-@app.callback(Output('live-plot', 'figure'),
-              [Input('interval-component', 'n_intervals')])
-def update_plot(n):
-    global data
-    data_list = update_data()
-
-    # Update data dictionary
-    for key, value in zip(data.keys(), data_list):
-        data[key].append(value)
-
-    # Plot data
-    plt.clf()
-    plt.plot(data['Sensor1'], label='Sensor1')
-    plt.plot(data['Sensor2'], label='Sensor2')
-    plt.plot(data['Sensor3'], label='Sensor3')
-    plt.title('Live Sensor Data')
-    plt.xlabel('Time')
-    plt.ylabel('Sensor Values')
-    plt.legend()
-
-    # Convert Matplotlib plot to Plotly format
-    fig = plt.gcf()
-    plotly_fig = dict(data=fig2plotly(fig))
-
-    return plotly_fig
-
-# Function to convert Matplotlib plot to Plotly format
-def fig2plotly(fig):
-    import plotly.graph_objs as go
-    import numpy as np
-
-    data = []
-    for trace in fig.get_axes():
-        y = trace.get_ydata()
-        x = np.arange(len(y))
-        name = trace.get_label()
-
-        data.append(go.Scatter(x=x, y=y, name=name))
-
-    layout = go.Layout(title=fig.get_axes()[0].get_title(),
-                       xaxis=dict(title=fig.get_axes()[0].get_xlabel()),
-                       yaxis=dict(title=fig.get_axes()[0].get_ylabel()))
-
-    return dict(data=data, layout=layout)
-
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, host='0.0.0.0', port=8050)
