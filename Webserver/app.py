@@ -50,6 +50,7 @@ def update_sensor_values(n):
 # Function to read data from Arduino
 def update_data():
     serial_data = ser.readline().decode().strip()
+    print(f"Serial data is: {serial_data}")
     data_list = [float(value) for value in serial_data.split(',')]
     return data_list
 
