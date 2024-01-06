@@ -35,7 +35,7 @@ def update_plots(n):
     data_list = update_data()
 
     # Update data dataframe
-    data = pd.concat(pd.DataFrame(data_list, columns=data.columns, index=n), data)
+    data = pd.concat(pd.DataFrame(data_list, columns=data.columns, index=[n]), data)
     print(data)
     data.to_csv("arduino_data.csv", sep=";")
     # Solar Plot
