@@ -33,11 +33,8 @@ app.layout = html.Div([
 def update_plots(n):
     data = pd.read_csv("arduino_data.csv", delimiter=";")
     data_list = update_data()
-    print(f"dataframe is {data}")
-    print(f"read data is {data_list}")
     # Update data dataframe
     data = pd.concat(pd.DataFrame(data_list, columns=data.columns, index=[n]), data)
-    print(data)
     data.to_csv("arduino_data.csv", sep=";")
     # Solar Plot
     solar_plot = {
@@ -86,6 +83,7 @@ def update_plots(n):
 def update_data():
     global ser
     serial_data = ser.readline().decode().strip()
+    print(serial_data)
     data_list = [float(value) if value.replace('.', '', 1).isdigit() else value for value in serial_data.split(',')]
     data_list.insert(0, pd.Timestamp.now())  # Add timestamp
     return data_list
