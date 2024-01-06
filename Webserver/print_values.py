@@ -9,7 +9,9 @@ print("Connection established")
 
 try:
     while True:
+        print("Receiving data")
         serial_data = ser.readline().decode().strip()
+        print("Received Data")
         print("Received data:", serial_data)
 
 except KeyboardInterrupt:
