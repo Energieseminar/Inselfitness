@@ -33,7 +33,8 @@ app.layout = html.Div([
 def update_plots(n):
     data = pd.read_csv("arduino_data.csv", delimiter=";")
     data_list = update_data()
-
+    print(f"dataframe is {data}")
+    print(f"read data is {data_list}")
     # Update data dataframe
     data = pd.concat(pd.DataFrame(data_list, columns=data.columns, index=[n]), data)
     print(data)
