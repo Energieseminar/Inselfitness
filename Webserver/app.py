@@ -31,10 +31,12 @@ app.layout = html.Div([
     [Input('interval-component', 'n_intervals')]
 )
 def update_plots(n):
-    data = pd.read_csv("arduino_data.csv", delimiter=";")
+    data = pd.read_csv("arduino_data.csv", delimiter=";", index_col="timestamp")
     data_list = update_data()
     # Update data dataframe
-    data = pd.concat([pd.DataFrame(data_list, columns=data.columns, index=[n]), data])
+    index = data_list["timestamp"]
+    data_list.pop("timestamp")
+    data = pd.concat([pd.DataFrame(data_list, index=[index]), data])
     print(data)
     data.to_csv("arduino_data.csv", sep=";")
     # Solar Plot
