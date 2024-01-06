@@ -1,6 +1,7 @@
 from flask import Flask
 from dash import Dash, dcc, html, Input, Output
 import serial
+import pandas as pd
 
 # Serial communication setup for Raspberry Pi
 ser = serial.Serial('/dev/ttyACM0', 9600)  # Adjust the port and baud rate accordingly
@@ -9,49 +10,82 @@ ser = serial.Serial('/dev/ttyACM0', 9600)  # Adjust the port and baud rate accor
 server = Flask(__name__)
 app = Dash(__name__, server=server)
 
-# Initial data for printing
-data = {'Sensor1': 1.0, 'Sensor2': 1.0, 'Sensor3': 1.0}
+# Initial data for plotting
+data = pd.DataFrame(columns=['Timestamp', 'SolarCurrent', 'SolarVoltage', 'WindCurrent', 'WindVoltage',
+                             'BatteryVoltage', 'BiogasPowerDraw', 'InverterPowerConsumption', 'WindSpeed',
+                             'SolarRadiation', 'Temperature'])
 
 # Dash layout
 app.layout = html.Div([
-    html.H1("Arduino Sensor Values"),
-    html.Div([
-        html.P("Sensor 1: "),
-        html.P(id='sensor1-value'),
-    ]),
-    html.Div([
-        html.P("Sensor 2: "),
-        html.P(id='sensor2-value'),
-    ]),
-    html.Div([
-        html.P("Sensor 3: "),
-        html.P(id='sensor3-value'),
-    ]),
-    dcc.Interval(id='interval-component', interval=10000, n_intervals=0)
+    dcc.Graph(id='solar-plot'),
+    dcc.Graph(id='wind-plot'),
+    dcc.Graph(id='power-plot'),
+    dcc.Interval(id='interval-component', interval=5000, n_intervals=0)
 ])
 
-# Callback to update sensor values
+# Callback to update plots
 @app.callback(
-    [Output('sensor1-value', 'children'),
-     Output('sensor2-value', 'children'),
-     Output('sensor3-value', 'children')],
+    [Output('solar-plot', 'figure'),
+     Output('wind-plot', 'figure'),
+     Output('power-plot', 'figure')],
     [Input('interval-component', 'n_intervals')]
 )
-def update_sensor_values(n):
+def update_plots(n):
     global data
     data_list = update_data()
 
-    # Update data dictionary
-    for key, value in zip(data.keys(), data_list):
-        data[key] = value
+    # Update data dataframe
+    data = data.append(pd.Series(data_list, index=data.columns), ignore_index=True)
 
-    return f"{data['Sensor1']:.2f}", f"{data['Sensor2']:.2f}", f"{data['Sensor3']:.2f}"
+    # Solar Plot
+    solar_plot = {
+        'data': [
+            {'x': data['Timestamp'], 'y': data['SolarCurrent'], 'type': 'line', 'name': 'Solar Current'},
+            {'x': data['Timestamp'], 'y': data['SolarVoltage'], 'type': 'line', 'name': 'Solar Voltage'},
+        ],
+        'layout': {
+            'title': 'Solar Panel Data',
+            'xaxis': {'title': 'Timestamp'},
+            'yaxis': {'title': 'Values'},
+        }
+    }
+
+    # Wind Plot
+    wind_plot = {
+        'data': [
+            {'x': data['Timestamp'], 'y': data['WindCurrent'], 'type': 'line', 'name': 'Wind Current'},
+            {'x': data['Timestamp'], 'y': data['WindVoltage'], 'type': 'line', 'name': 'Wind Voltage'},
+            {'x': data['Timestamp'], 'y': data['WindSpeed'], 'type': 'line', 'name': 'Wind Speed'},
+        ],
+        'layout': {
+            'title': 'Wind Turbine Data',
+            'xaxis': {'title': 'Timestamp'},
+            'yaxis': {'title': 'Values'},
+        }
+    }
+
+    # Power Plot
+    power_plot = {
+        'data': [
+            {'x': data['Timestamp'], 'y': data['BatteryVoltage'], 'type': 'line', 'name': 'Battery Voltage'},
+            {'x': data['Timestamp'], 'y': data['BiogasPowerDraw'], 'type': 'line', 'name': 'Biogas Power Draw'},
+            {'x': data['Timestamp'], 'y': data['InverterPowerConsumption'], 'type': 'line', 'name': 'Inverter Power Consumption'},
+        ],
+        'layout': {
+            'title': 'Power Data',
+            'xaxis': {'title': 'Timestamp'},
+            'yaxis': {'title': 'Values'},
+        }
+    }
+
+    return solar_plot, wind_plot, power_plot
 
 # Function to read data from Arduino
 def update_data():
+    global ser
     serial_data = ser.readline().decode().strip()
-    print(f"Serial data is: {serial_data}")
-    data_list = [float(value) for value in serial_data.split(',')]
+    data_list = [float(value) if value.replace('.', '', 1).isdigit() else value for value in serial_data.split(',')]
+    data_list.insert(0, pd.Timestamp.now())  # Add timestamp
     return data_list
 
 if __name__ == '__main__':
