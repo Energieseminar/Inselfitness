@@ -35,6 +35,7 @@ def update_plots(n):
     data_list = update_data()
     # Update data dataframe
     data = pd.concat(pd.DataFrame(data_list, columns=data.columns, index=[n]), data)
+    print(data)
     data.to_csv("arduino_data.csv", sep=";")
     # Solar Plot
     solar_plot = {
@@ -90,7 +91,6 @@ def update_data():
     data_dict = {pairs[i]: [float(pairs[i + 1])] for i in range(0, len(pairs), 2)}
 
     # Print the resulting dictionary
-    print(data_dict)
 
     data_dict.update({"timestamp": pd.Timestamp.now()})  # Add timestamp
     return data_dict
