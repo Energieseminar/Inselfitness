@@ -27,7 +27,7 @@ app.layout = html.Div([
         html.P("Sensor 3: "),
         html.P(id='sensor3-value'),
     ]),
-    dcc.Interval(id='interval-component', interval=1000, n_intervals=0)
+    dcc.Interval(id='interval-component', interval=10000, n_intervals=0)
 ])
 
 # Callback to update sensor values
