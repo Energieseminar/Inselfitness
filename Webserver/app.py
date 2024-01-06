@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import serial
 
-# Serial communication setup for Windows
-ser = serial.Serial('COM3', 9600)  # Adjust the COM port and baud rate accordingly
+# Serial communication setup
+ser = serial.Serial('/dev/ttyUSB0', 9600)  # Adjust the port and baud rate accordingly
 
 
 # Function to read data from Arduino
