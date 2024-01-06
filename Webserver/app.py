@@ -32,12 +32,13 @@ app.layout = html.Div([
 )
 def update_plots(n):
     data = pd.read_csv("arduino_data.csv", delimiter=";", index_col="timestamp")
+    print(f"Read in dataframe: {data}")
     data_list = update_data()
     # Update data dataframe
     index = data_list["timestamp"]
     data_list.pop("timestamp")
     data = pd.concat([pd.DataFrame(data_list, index=[index]), data])
-    print(data)
+    print(f"Dataframe after concat is: {data}")
     data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
     # Solar Plot
     solar_plot = {
