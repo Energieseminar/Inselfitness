@@ -83,7 +83,15 @@ def update_plots(n):
 def update_data():
     global ser
     serial_data = ser.readline().decode().strip()
-    print(serial_data)
+    # Split the input string into key-value pairs
+    pairs = serial_data.split(',')
+
+    # Create a dictionary from the key-value pairs
+    data_dict = {pairs[i]: float(pairs[i + 1]) for i in range(0, len(pairs), 2)}
+
+    # Print the resulting dictionary
+    print(data_dict)
+
     data_list = [float(value) if value.replace('.', '', 1).isdigit() else value for value in serial_data.split(',')]
     data_list.insert(0, pd.Timestamp.now())  # Add timestamp
     return data_list
