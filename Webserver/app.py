@@ -95,7 +95,7 @@ def update_data():
 
     # Print the resulting dictionary
 
-    data_dict.update({"timestamp": pd.timestamp.now()})  # Add timestamp
+    data_dict.update({"timestamp": pd.Timestamp.now()})  # Add timestamp
     return data_dict
 
 if __name__ == '__main__':
