@@ -1,10 +1,7 @@
 from flask import Flask
 from dash import Dash, dcc, html, Input, Output
-import serial
 import pandas as pd
-
-# Serial communication setup for Raspberry Pi
-ser = serial.Serial('/dev/ttyACM0', 9600)  # Adjust the port and baud rate accordingly
+import read_serial
 
 # Flask app setup
 server = Flask(__name__)
@@ -31,20 +28,20 @@ app.layout = html.Div([
     [Input('interval-component', 'n_intervals')]
 )
 def update_plots(n):
-    data = pd.read_csv("arduino_data.csv", delimiter=";", index_col="timestamp")
-    print(f"Read in dataframe: {data}")
+    read_data_from_mem = pd.read_csv("arduino_data.csv", delimiter=";", index_col="timestamp")
+    print(f"Read in dataframe: {read_data_from_mem}")
     data_list = update_data()
     # Update data dataframe
     index = data_list["timestamp"]
     data_list.pop("timestamp")
-    data = pd.concat([pd.DataFrame(data_list, index=[index]), data])
-    print(f"Dataframe after concat is: {data}")
-    data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
+    read_data_from_mem = pd.concat([pd.DataFrame(data_list, index=[index]), read_data_from_mem])
+    print(f"Dataframe after concat is: {read_data_from_mem}")
+    read_data_from_mem.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
     # Solar Plot
     solar_plot = {
         'data': [
-            {'x': data['timestamp'], 'y': data['SolarCurrent'], 'type': 'line', 'name': 'Solar Current'},
-            {'x': data['timestamp'], 'y': data['SolarVoltage'], 'type': 'line', 'name': 'Solar Voltage'},
+            {'x': read_data_from_mem['timestamp'], 'y': read_data_from_mem['SolarCurrent'], 'type': 'line', 'name': 'Solar Current'},
+            {'x': read_data_from_mem['timestamp'], 'y': read_data_from_mem['SolarVoltage'], 'type': 'line', 'name': 'Solar Voltage'},
         ],
         'layout': {
             'title': 'Solar Panel Data',
@@ -56,9 +53,9 @@ def update_plots(n):
     # Wind Plot
     wind_plot = {
         'data': [
-            {'x': data['timestamp'], 'y': data['WindCurrent'], 'type': 'line', 'name': 'Wind Current'},
-            {'x': data['timestamp'], 'y': data['WindVoltage'], 'type': 'line', 'name': 'Wind Voltage'},
-            {'x': data['timestamp'], 'y': data['WindSpeed'], 'type': 'line', 'name': 'Wind Speed'},
+            {'x': read_data_from_mem['timestamp'], 'y': read_data_from_mem['WindCurrent'], 'type': 'line', 'name': 'Wind Current'},
+            {'x': read_data_from_mem['timestamp'], 'y': read_data_from_mem['WindVoltage'], 'type': 'line', 'name': 'Wind Voltage'},
+            {'x': read_data_from_mem['timestamp'], 'y': read_data_from_mem['WindSpeed'], 'type': 'line', 'name': 'Wind Speed'},
         ],
         'layout': {
             'title': 'Wind Turbine Data',
@@ -70,9 +67,9 @@ def update_plots(n):
     # Power Plot
     power_plot = {
         'data': [
-            {'x': data['timestamp'], 'y': data['BatteryVoltage'], 'type': 'line', 'name': 'Battery Voltage'},
-            {'x': data['timestamp'], 'y': data['BiogasPowerDraw'], 'type': 'line', 'name': 'Biogas Power Draw'},
-            {'x': data['timestamp'], 'y': data['InverterPowerConsumption'], 'type': 'line', 'name': 'Inverter Power Consumption'},
+            {'x': read_data_from_mem['timestamp'], 'y': read_data_from_mem['BatteryVoltage'], 'type': 'line', 'name': 'Battery Voltage'},
+            {'x': read_data_from_mem['timestamp'], 'y': read_data_from_mem['BiogasPowerDraw'], 'type': 'line', 'name': 'Biogas Power Draw'},
+            {'x': read_data_from_mem['timestamp'], 'y': read_data_from_mem['InverterPowerConsumption'], 'type': 'line', 'name': 'Inverter Power Consumption'},
         ],
         'layout': {
             'title': 'Power Data',
@@ -85,11 +82,7 @@ def update_plots(n):
 
 # Function to read data from Arduino
 def update_data():
-    global ser
-    serial_data = ser.readline().decode().strip()
-    # Split the input string into key-value pairs
-    pairs = serial_data.split(',')
-
+    pairs = read_serial.get_data()
     # Create a dictionary from the key-value pairs
     data_dict = {pairs[i]: [float(pairs[i + 1])] for i in range(0, len(pairs), 2)}
 
