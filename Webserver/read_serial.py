@@ -15,4 +15,4 @@ def get_data():
     return ser.readline().decode().strip().split(',')
 
 def get_fake_data():
-    return  "SolarCurrent,10.50,SolarVoltage,24.00,WindCurrent,5.30,WindVoltage,12.00,BatteryVoltage,48.00,BiogasPowerDraw,120.00,InverterPowerConsumption,30.00,WindSpeed,8.50,SolarRadiation,800.00,Temperature,25.00".split(",")
+    return  "SolarCurrent,100.50,SolarVoltage,24.00,WindCurrent,5.30,WindVoltage,12.00,BatteryVoltage,48.00,BiogasPowerDraw,120.00,InverterPowerConsumption,30.00,WindSpeed,8.50,SolarRadiation,800.00,Temperature,25.00".split(",")
