@@ -8,82 +8,47 @@ apt-get update && apt-get upgrade -y
 ```
 
 
-## Conda Installation: 
+## Venv & Dependencies Installation: 
+The following steps have been taken to install the Virtual Environment, activate it and install Python packages. 
+Python 3.10 should be installed as well. 
+Please understand that the whole setup procedure might need adaption as packages, python and Raspian develop further. Therefore this is inteded to document the current setup and might not be suitable for reproduction in the future while also not beeing a complete guide since the Team had limited capacities.
 
-We followed the instructions of a well done Stackoverflow Question:
-*Note: The added environment is named "streamlit" like the webserrver app*
+Update pip:
 
-Installing Miniconda on Raspberry Pi and adding Python 3.5 / 3.6
-Skip the first section if you have already installed Miniconda successfully.
-
-Installation of Miniconda on Raspberry Pi
-
+Execute the following command to ensure that your pip is up to date:
 ```
-wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-armv7l.sh
-sudo md5sum Miniconda3-latest-Linux-armv7l.sh
-sudo /bin/bash Miniconda3-latest-Linux-armv7l.sh
+python3 -m pip install --upgrade pip
 ```
-Accept the license agreement with **yes**
+Create a virtual environment:
 
-When asked, change the install location: **/home/pi/miniconda3**
-
-Do you wish the installer to prepend the Miniconda3 install location to PATH in your /root/.bashrc ? **yes**
-
-Now add the install path to the PATH variable:
-
+Navigate to the directory where you want to store your project and create a virtual environment with the following command:
 ```
-sudo nano /home/pi/.bashrc
+python3 -m venv venv
 ```
+Activate the virtual environment:
 
-Go to the end of the file .bashrc and add the following line:
+Activate the virtual environment with the command:
 ```
-export PATH="/home/pi/miniconda3/bin:$PATH"
+source venv/bin/activate
 ```
+Install Dash:
 
-Save the file and exit.
-
-To test if the installation was successful, open a new terminal and enter
+Use pip within the virtual environment to install Dash:
 ```
-conda
+pip install dash dash_bootstrap_components flask pyserial
 ```
-If you see a list with commands you are ready to go.
-
-----------------------------
-But how can you use Python versions greater than 3.4 ?
-
-Adding Python 3.5 / 3.6 to Miniconda on Raspberry Pi
-
-After the installation of Miniconda I could not yet install Python versions higher than Python 3.4, but i needed Python 3.5. Here is the solution which worked for me on my Raspberry Pi 4:
-
-First i added the Berryconda package manager by jjhelmus (kind of an up-to-date version of the armv7l version of Miniconda):
-```
-conda config --add channels rpi
-```
-Only now I was able to install Python 3.5 or 3.6 without the need for compiling it myself:
-```
-conda install python=3.5
-conda install python=3.6
-```
-Afterwards I was able to create environments with the added Python version, e.g. with Python 3.5:
-```
-conda create --name py35 python=3.5
-```
-The new environment "py35" can now be activated:
-```
-source activate py35
-```
-Using Python 3.7 on Raspberry Pi
-
-Currently Jonathan Helmus, who is the developer of berryconda, is working on adding Python 3.7 support, if you want to see if there is an update or if you want to support him, have a look at this pull request. (update 20200623) berryconda is now inactive, This project is no longer active, no recipe will be updated and no packages will be added to the rpi channel. If you need to run Python 3.7 on your Pi right now, you can do so without Miniconda. Check if you are running the latest version of Raspbian OS called Buster. Buster ships with Python 3.7 preinstalled (source), so simply run your program with the following command:
-
-Python3.7 app-that-needs-python37.py
-
-I hope this solution will work for you too!
-
-Antwort von Paul Strobel von Stack Overflow
-
 ## Setup git to download & Update Code
 First install git: 
 ```
-apt-get install
+apt-get install git
 ```
+
+The Git repossitory has been cloned to /home/tee/ with 
+```
+git clone https://github.com/Energieseminar/Inselfitness.git
+```
+
+## Setup Cronjob and respective bash script
+This is to regulary update the running script which might be helpful when developing in such a restrictive Network environment as a Company or TU Berlin (:
+
+# TODO: Write what has been done here
