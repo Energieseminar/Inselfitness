@@ -17,7 +17,7 @@ def get_fake_data():
 
 def check_viablitiy(lines: list):
   print(len(lines)
-  return 1
+  return True
 
 def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=4) 
