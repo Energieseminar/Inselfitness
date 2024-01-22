@@ -33,9 +33,11 @@ def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=4) 
     lines = ser.readlines()
     time.sleep(4)
-    decoded_lines = [line.decode() for line in lines]
+    decoded_lines = [line.decode().strip() for line in lines]
     print(decoded_lines)
    #todo: rearrange lines to fit some layout 
-    check_viablitiy(decoded_lines)
-    
+    if check_viablitiy(decoded_lines)
+        stripped_lines = [dec.strip() for dec in decoded_lines]
+    else: 
+        striped_lines = None
     return "Yes"
