@@ -37,5 +37,5 @@ def get_data():
         stripped_lines = [dec.strip() for dec in decoded_lines]
     else: 
         striped_lines = None
-    print(striped_lines)
+    print(";".join(striped_lines))
     return ";".join(striped_lines)
