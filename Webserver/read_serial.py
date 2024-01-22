@@ -13,6 +13,7 @@ def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600)  # Adjust the port and baud rate accordingly
 
     lines = [ser.readline() for _ in range(12)]
+    print(lines)
     return ';'.join(lines)
 
 def get_fake_data():
