@@ -13,7 +13,7 @@ app.layout = dbc.Container([
     dash_table.DataTable(read_serial.data.to_dict('records'),[{"name": i, "id": i} for i in read_serial.data.columns], id='tbl'),
     dbc.Alert(id='tbl_out'),
     html.H4(id="print_values_as_they_come", children=[]),
-    dcc.Interval(id='interval-component', interval=10000, n_intervals=0)
+    dcc.Interval(id='interval-component', interval=5000, n_intervals=0)
 ])
 
 @app.callback(Output('tbl_out', 'children'), Input('tbl', 'active_cell'))
