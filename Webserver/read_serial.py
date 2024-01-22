@@ -1,5 +1,6 @@
 import pandas as pd
 import serial
+import time
 # Serial communication setup for Raspberry Pi
 
 
@@ -11,9 +12,12 @@ data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
 
 def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=4) 
+    lines = ser.readlines()
+    time.sleep(4)
+    decoded_lines = [line.decode() for line in lines]
+
+   #todo: rearrange lines to fit some layout 
     
-    print(lines:=ser.readlines())
-    print([x.decode() for x in lines])
     return "Yes"
 
 def get_fake_data():
