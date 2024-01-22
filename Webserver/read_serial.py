@@ -1,4 +1,4 @@
-import pandas as pd
+eimport pandas as pd
 import serial
 # Serial communication setup for Raspberry Pi
 
@@ -12,7 +12,7 @@ data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
 def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600)  # Adjust the port and baud rate accordingly
 
-    lines = [ser.readline() for _ in range(11)]
+    lines = [ser.readline().decode() for _ in range(11)]
     print(lines)
     return ';'.join(lines)
 
