@@ -19,7 +19,7 @@ def get_fake_data():
 def check_viablitiy(lines: list):
     if len(lines)!=12:
       return False
-    if lines[0]!="Messdaten Pin 2 - 14: \r\n":
+    if lines[0]!="Messdaten Pin 2 - 14:":
       return False
     if lines[11][0:4]!= "(13)":
       return False
@@ -31,5 +31,7 @@ def get_data():
     time.sleep(4)
     decoded_lines = [line.decode().strip() for line in lines]
    #todo: rearrange lines to fit some layout 
-    print(";".join(decoded_lines))
-    return ";".join(decoded_lines)
+    if check_viablitiy(decoded_lines):
+      return ";".join(decoded_lines)
+    else:
+      return "No"
