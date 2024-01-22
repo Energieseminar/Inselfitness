@@ -38,6 +38,7 @@ def update_table(n):
 
     #get data as it comes:
     read_string = read_serial.get_data()
+    print(read_string)
 
     return updated_data.to_dict("records"), read_string  # Return the updated data dictionary
 # Function to read data from Arduino
