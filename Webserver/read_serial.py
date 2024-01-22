@@ -16,8 +16,8 @@ def get_fake_data():
     return  "SolarCurrent,100.50,SolarVoltage,24.00,WindCurrent,5.30,WindVoltage,12.00,BatteryVoltage,48.00,BiogasPowerDraw,120.00,InverterPowerConsumption,30.00,WindSpeed,8.50,SolarRadiation,800.00,Temperature,25.00".split(",")
 
 def check_viablitiy(lines: list):
-  print(len(lines)
-  return True
+    print(len(lines)
+    return True
 
 def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=4) 
