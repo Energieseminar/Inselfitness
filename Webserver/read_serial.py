@@ -10,9 +10,9 @@ data = pd.DataFrame(columns=['SolarCurrent', 'SolarVoltage', 'WindCurrent', 'Win
 data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
 
 def get_data():
-    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=5)  # Adjust the port and baud rate accordingly
+    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=5) 
     
-    print(ser.readlines())
+    print(ser.readline())
     return "Yes"
 
 def get_fake_data():
