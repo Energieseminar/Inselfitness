@@ -23,7 +23,7 @@ def check_viablitiy(lines: list):
     if lines[0]!="Messdaten Pin 2 - 14: \r\n":
       return False
     print(lines[11])
-    print(lines[11][0:3]
+    print(lines[11][0:3])
     if lines[12][0:3]!= "(13)":
       return False
     return True
