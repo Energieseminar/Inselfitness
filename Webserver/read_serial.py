@@ -15,7 +15,7 @@ def get_data():
     lines = ser.readlines()
     time.sleep(4)
     decoded_lines = [line.decode() for line in lines]
-
+    print(decoded_lines)
    #todo: rearrange lines to fit some layout 
     
     return "Yes"
