@@ -34,7 +34,7 @@ def get_data():
     print(decoded_lines)
    #todo: rearrange lines to fit some layout 
     if check_viablitiy(decoded_lines):
-        stripped_lines = [dec.strip() for dec in decoded_lines]
+        striped_lines = [dec.strip() for dec in decoded_lines]
     else: 
         striped_lines = None
     print(";".join(striped_lines))
