@@ -37,10 +37,7 @@ def update_table(n):
     updated_data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
 
     #get data as it comes:
-    try:
-        read_string = read_serial.get_data()
-    except:
-        read_string = "No data on Serial connection"
+    read_string = read_serial.get_data()
 
     return updated_data.to_dict("records"), read_string  # Return the updated data dictionary
 # Function to read data from Arduino
