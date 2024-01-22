@@ -25,9 +25,6 @@ def check_viablitiy(lines: list):
     if lines[11][0:4]!= "(13)":
       return False
     return True
-  
-
-  
 
 def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=4) 
@@ -41,4 +38,4 @@ def get_data():
     else: 
         striped_lines = None
     print(striped_lines)
-    return "Yes"
+    return ";".join(striped_lines)
