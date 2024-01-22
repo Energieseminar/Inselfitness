@@ -1,4 +1,4 @@
-eimport pandas as pd
+import pandas as pd
 import serial
 # Serial communication setup for Raspberry Pi
 
