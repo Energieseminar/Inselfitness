@@ -12,7 +12,7 @@ data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
 def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=5) 
     
-    print(ser.readlines().decode())
+    print(ser.readlines())
     return "Yes"
 
 def get_fake_data():
