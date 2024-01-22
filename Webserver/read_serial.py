@@ -12,7 +12,7 @@ data.to_csv("arduino_data.csv", sep=";", index_label="timestamp")
 def get_data():
     ser = serial.Serial('/dev/ttyACM0', 9600)  # Adjust the port and baud rate accordingly
 
-    lines = [ser.readline() for _ in range(12)]
+    lines = [ser.readline() for _ in range(11)]
     print(lines)
     return ';'.join(lines)
 
