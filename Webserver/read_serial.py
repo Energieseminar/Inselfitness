@@ -17,7 +17,6 @@ def get_fake_data():
     return  "SolarCurrent,100.50,SolarVoltage,24.00,WindCurrent,5.30,WindVoltage,12.00,BatteryVoltage,48.00,BiogasPowerDraw,120.00,InverterPowerConsumption,30.00,WindSpeed,8.50,SolarRadiation,800.00,Temperature,25.00".split(",")
 
 def check_viablitiy(lines: list):
-    print(len(lines))
     if len(lines)!=12:
       return False
     if lines[0]!="Messdaten Pin 2 - 14: \r\n":
@@ -31,11 +30,6 @@ def get_data():
     lines = ser.readlines()
     time.sleep(4)
     decoded_lines = [line.decode().strip() for line in lines]
-    print(decoded_lines)
    #todo: rearrange lines to fit some layout 
-    if check_viablitiy(decoded_lines):
-        striped_lines = [dec.strip() for dec in decoded_lines]
-    else: 
-        striped_lines = None
-    print(";".join(striped_lines))
-    return ";".join(striped_lines)
+    print(";".join(decoded_lines))
+    return ";".join(decoded_lines)
