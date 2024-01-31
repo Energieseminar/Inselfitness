@@ -47,7 +47,18 @@ The Git repossitory has been cloned to /home/tee/ with
 ```
 git clone https://github.com/Energieseminar/Inselfitness.git
 ```
-
+The Code from main branch is fetched by the following command:
+```
+git pull
+```
+Then the environment in which the libraries are installed must be actived with the below command:
+```
+source /home/tee/bin/activate
+```
+Perform Pythonscript:
+```
+python simple_app.py
+```
 ## Setup Cronjob and respective bash script
 This is to regulary update the running script which might be helpful when developing in such a restrictive Network environment as a Company or TU Berlin (:
 
