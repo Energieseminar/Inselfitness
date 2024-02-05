@@ -35,9 +35,6 @@ pinMode (11, INPUT);
 pinMode (12, INPUT);
 pinMode (13, INPUT);
 pinMode (14, INPUT);
-  Serial.print(F(" [INSELFITNESS] Messdaten Pins 2-14"));
-      Serial.println();
-
 Serial.begin (9600);
 }
 
