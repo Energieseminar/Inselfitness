@@ -20,7 +20,7 @@ float Vb;
 float Is;
 float Ta;
 float Tb;
-int takt = 5000;
+int takt = 300000;     // Ablesung jede 5 minuten
 
 void setup() {
 pinMode (2, INPUT);
