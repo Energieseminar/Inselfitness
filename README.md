@@ -43,23 +43,23 @@ Safety features include a 4 Ampere fuse and an FI circuit breaker for personnel 
 
 ### What is Raspberry Pi?
 
--A Raspberry Pi is a small, single-board computer developed by the Raspberry Pi Foundation in the United Kingdom. It is designed to be a low-cost, credit-card-sized computer that plugs into a computer monitor or TV, and it uses a standard keyboard and mouse. 
+- The Raspberry Pi Foundation in the UK created the Raspberry Pi, a tiny single-board computer. It is intended to be an inexpensive, credit card-sized computer that connects to a TV or computer monitor and makes use of a regular keyboard and mouse.
 
 ### What is Arduino?
 
--Arduino is an open-source platform used for building electronics projects. Arduino consists of both a physical programmable circuit board and a piece of software, or IDE that runs on your computer, used to write and upload computer code to the physical board.
+- An open-source platform called Arduino is used to construct electronics projects. Arduino is made up of a physical programmable circuit board and an IDE, or integrated development environment, that is installed on your computer and is used to write and upload computer code to the board.
 
 ### Raspberry Pi and Arduino in serial connection
 
--To get started, connect your Arduino to your computer, so you can upload the code into the board. After that, connect the USB cable to the Raspberry Pi. The Raspberry Pi will power the Arduino via this cable. To make a Serial connection you can also use plain wires between the Raspberry Pi GPIOs and the Arduino pins.
+- In order to upload the code to the board, first connect your Arduino to your computer. Next, attach the Raspberry Pi to the USB cord. This cable will be used to power the Arduino by the Raspberry Pi. Plain wires can also be used to connect the Raspberry Pi GPIOs and Arduino pins in a serial fashion.
 
 ### Video Links
 
 Getting started with Raspberry Pi and Arduino: https://youtu.be/xc9rUI0F6Iw?si=9YZu60pkYA3Ehoic
-
+[Credits: RimstarOrg]
 
 Serial Connection between Raspberry Pi and Arduino: https://youtu.be/jU_b8WBTUew?si=bmbPZzC8YB6uMPUu
-
+[Credits: Robotics Back-End]
 
 ## Additional Information
 
