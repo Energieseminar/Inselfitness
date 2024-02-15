@@ -47,11 +47,11 @@ Safety features include a 4 Ampere fuse and an FI circuit breaker for personnel 
 
 ### What is Arduino?
 
--Arduino is an open-source platform used for building electronics projects. Arduino consists of both a physical programmable circuit board (often referred to as a microcontroller) and a piece of software, or IDE (Integrated Development Environment) that runs on your computer, used to write and upload computer code to the physical board.
+-Arduino is an open-source platform used for building electronics projects. Arduino consists of both a physical programmable circuit board and a piece of software, or IDE that runs on your computer, used to write and upload computer code to the physical board.
 
 ### Raspberry Pi and Arduino in serial connection
 
--To get started, connect your Arduino to your computer, so you can upload the code into the board. After that, connect the USB cable to the Raspberry Pi. The Raspberry Pi will power the Arduino via this cable. To make a Serial connection you can also use plain wires between the Raspberry Pi GPIOs and the Arduino pins
+-To get started, connect your Arduino to your computer, so you can upload the code into the board. After that, connect the USB cable to the Raspberry Pi. The Raspberry Pi will power the Arduino via this cable. To make a Serial connection you can also use plain wires between the Raspberry Pi GPIOs and the Arduino pins.
 
 ### Video Links
 
@@ -61,6 +61,7 @@ Getting started with Raspberry Pi and Arduino: https://youtu.be/xc9rUI0F6Iw?si=9
 Serial Connection between Raspberry Pi and Arduino: https://youtu.be/jU_b8WBTUew?si=bmbPZzC8YB6uMPUu
 
 
+## Additional Information
 
 
 For more insights, explore our [YouTube channel](https://www.youtube.com/channel/your-channel).
