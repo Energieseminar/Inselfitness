@@ -39,6 +39,31 @@ To analyze system utilization and the impact of storage, a comprehensive measure
 
 Safety features include a 4 Ampere fuse and an FI circuit breaker for personnel protection. In case of a central network shutdown, a safety relay disconnects the office supply. A transfer switch in the office prevents data loss by seamlessly switching to grid power during system disruptions.
 
+## Raspberry Pi and Arduino
+
+### What is Raspberry Pi?
+
+- The Raspberry Pi Foundation in the UK created the Raspberry Pi, a tiny single-board computer. It is intended to be an inexpensive, credit card-sized computer that connects to a TV or computer monitor and makes use of a regular keyboard and mouse.
+
+### What is Arduino?
+
+- An open-source platform called Arduino is used to construct electronics projects. Arduino is made up of a physical programmable circuit board and an IDE, or integrated development environment, that is installed on your computer and is used to write and upload computer code to the board.
+
+### Raspberry Pi and Arduino in serial connection
+
+- In order to upload the code to the board, first connect your Arduino to your computer. Next, attach the Raspberry Pi to the USB cord. This cable will be used to power the Arduino by the Raspberry Pi. Plain wires can also be used to connect the Raspberry Pi GPIOs and Arduino pins in a serial fashion.
+
+### Video Links
+
+Getting started with Raspberry Pi and Arduino: https://youtu.be/xc9rUI0F6Iw?si=9YZu60pkYA3Ehoic
+[Credits: RimstarOrg]
+
+Serial Connection between Raspberry Pi and Arduino: https://youtu.be/jU_b8WBTUew?si=bmbPZzC8YB6uMPUu
+[Credits: Robotics Back-End]
+
+## Additional Information
+
+
 For more insights, explore our [YouTube channel](https://www.youtube.com/channel/your-channel).
 
 Feel free to contribute to this open-source project and be part of advancing sustainable energy solutions!
