@@ -17,6 +17,13 @@ def get_fake_data():
     return  "SolarCurrent,100.50,SolarVoltage,24.00,WindCurrent,5.30,WindVoltage,12.00,BatteryVoltage,48.00,BiogasPowerDraw,120.00,InverterPowerConsumption,30.00,WindSpeed,8.50,SolarRadiation,800.00,Temperature,25.00".split(",")
 
 def check_viablitiy(lines: list):
+    """
+    Checks whether the provided lines read from Serial are in expected format
+
+    Note: Sometimes Serial and reading are not sychronus leading to incomplete data
+    :param lines:
+    :return:
+    """
     if len(lines)!=12:
       return False
     if lines[0]!="Messdaten Pin 2 - 14:":
@@ -25,7 +32,12 @@ def check_viablitiy(lines: list):
       return False
     return True
 
-def get_data():
+def get_data(use_test_lines:bool= False):
+    """
+
+    :param use_test_lines:
+    :return:
+    """
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=4) 
     lines = ser.readlines()
     time.sleep(4)
