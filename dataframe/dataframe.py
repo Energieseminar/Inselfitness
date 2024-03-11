@@ -44,14 +44,16 @@ class InselDataframes:
         ]
         forever_index_names = ["Date", "Type"]
         index_name = "Date"
-        time_format = "%m/%d/%Y %H:%M"
+        time_format = "%d-%m-%Y %H:%M"
         monthly_frequency = "30min"
+        forever_time_format = "%d-%m-%Y"
 
         self.monthly_frequency = monthly_frequency
         self.forever_csv = forever_csv
         self.daily_csv = daily_csv
         self.month_csv = month_csv
         self.reading_csv = reading_csv
+        self.forever_time_format = forever_time_format
 
         self.columns = columns
         self.time_format = time_format
@@ -79,20 +81,24 @@ class InselDataframes:
             # Creating dummy data for month_df
             num_rows = 10  # Number of rows for dummy data
             start_date = datetime.now().strftime(time_format)
-            index = pd.date_range(end=start_date, periods=10, freq=monthly_frequency, name=index_name)
+            index = pd.date_range(
+                end=start_date, periods=10, freq=monthly_frequency, name=index_name
+            )
             self.month_df = pd.DataFrame(data=None, index=index, columns=columns).apply(
                 lambda col: col.map(replace_nan)
             )
 
         if self.forever_df.empty:
             # Creating dummy data for forever_df
-            num_rows = 4  # Number of rows for dummy data
-            start_date = datetime.now().strftime(time_format)
+            time_index = pd.DatetimeIndex(pd.date_range(
+                end=datetime.now(), periods=10, freq="D"
+            ))
+            time_index = time_index.strftime(forever_time_format)
             index = pd.MultiIndex.from_product(
-                [[start_date], ["max", "min", "mean", "median"]],
+                [time_index, ["max", "min", "mean", "median"]],
                 names=forever_index_names,
             )
-            self.forever_df = pd.DataFrame(
+            self.forever_df =pd.DataFrame(
                 data=None, index=index, columns=columns
             ).apply(lambda col: col.map(replace_nan))
 
@@ -151,62 +157,23 @@ class InselDataframes:
         self.write_to_forever(daily_file, forever_file)
         self.write_to_monthly(monthly_file, daily_file)
 
-    def make_4m_df(self, input_df: pd.DataFrame) -> pd.DataFrame:
-        """
-        Creates a 4x12 dataframe indicating the results of measures of central tendencies on the input dataframe.
-        Input dataframe must be a
-        The output dataframe is defined as follows :
-        rows [mean,median,max,min]
-        columns [measure, Cpv, Cwt, Cwr, Cg, Cbp, Cbn, vw, Dw, Is, Ta, Tb, Vb]
-        :param input_df:
-        :return:
-        """
-        row_names = ["max", "min", "mean", "median"]
-        result_df = pd.DataFrame(columns=self.column_names, index=row_names)
-
-        for col in self.column_names:
-            if col == "measure":  # we only want the columns Cpv ..... Vb
-                result_df[col] = row_names
-            else:
-                result_df.loc["mean", col] = input_df[col].mean()
-                result_df.loc["max", col] = input_df[col].max()
-                result_df.loc["min", col] = input_df[col].min()
-                result_df.loc["median", col] = input_df[col].median()
-
-        return result_df
-
-    def write_to_forever(self, daily_file, forever_file):
+    def write_to_forever(self):
         """
         A method that writes the mean, median, max and min of the day for every variable to the forever file
         :param daily_file:
         :param forever_file:
         :return:
         """
-        daily_df = pd.read_csv(daily_file, names=self.columns)
-        initial_row_number = daily_df.shape[0]
-        daily_df.drop(
-            daily_df[daily_df.timestamp == "66/66/6666-66:66:66"].index, inplace=True
-        )  # get rid of the colums starting with 66:66:66 (invalid format marker)
-        daily_df.reset_index(inplace=True, drop=True)  # reindex the rows from 0 to X
-        final_row_number = daily_df.shape[0]
-        print(
-            f"{initial_row_number - final_row_number} rows had an incorrect format and were ignored"
-        )
-        self.daily_df = (
-            daily_df  # save as an attribute so that write_to_monthly can also use it
-        )
+        # make description df
+        descibe = self.daily_df.describe()
+        days = np.unique(self.daily_df.index.strftime("%d"))
+        if len(days) == 1:
+            date_index = pd.DatetimeIndex(np.unique(self.daily_df.index.strftime(self.forever_time_format))).strftime(self.forever_time_format)
+        descibe.index = pd.MultiIndex.from_product([date_index, descibe.index], names=self.forever_index_names)
+        self.forever_df = pd.concat([self.forever_df, descibe])
+        return self.forever_df
 
-        result_column_names = self.columns + ["date"]
-
-        result_df = self.make_4m_df(daily_df)
-        date = datetime.today().strftime("%d/%m/%Y")
-        result_df.insert(0, "date", date)
-
-        result_df.to_csv(
-            forever_file, sep=",", header=result_column_names, index=False, mode="a"
-        )
-
-    def write_to_monthly(self):
+    def write_to_monthly(self) -> pd.DataFrame:
         """
         Method that writes 48 new datapoints to the monthly file and automatically updates the mean,median,max,min header
         according to the new data
@@ -214,33 +181,16 @@ class InselDataframes:
         :param daily_df:
         :return:
         """
-        column_names = [
-            "measure",
-            "Cpv",
-            "Cwt",
-            "Cwr",
-            "Cg",
-            "Cbp",
-            "Cbn",
-            "vw",
-            "Dw",
-            "Is",
-            "Ta",
-            "Tb",
-            "Vb",
-        ]
-
-        pd.concat(self.month_df, self.daily_df.resample(self.monthly_frequency).mean())
-
-
-
-
+        return pd.concat(
+            [self.month_df, self.daily_df.resample(self.monthly_frequency).mean()]
+        )
 
 
 if __name__ == "__main__":
     test = InselDataframes()
     test.write_to_daily(reading_file="../Webserver/reading.csv")
     test.write_to_monthly()
+    test.write_to_forever()
 
     # test.daily_cleanup(daily_file='new_daily.csv',
     #                      monthly_file='Jan2024.csv',
