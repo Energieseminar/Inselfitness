@@ -94,6 +94,7 @@ class InselDataframes():
         '''
         Method that writes 48 new datapoints to the monthly file and automatically updates the mean,median,max,min header
         according to the new data'''
+        
         column_names = ["measure", "Cpv", "Cwt", "Cwr", "Cg", "Cbp", "Cbn", "vw", "Dw", "Is", "Ta", "Tb", "Vb"]
         monthly_df = pd.read_csv(monthly_file, names = column_names, header=4)
         ####we want to keep 48 (2 per hour) datapoints per day for every day in the monthly_file
